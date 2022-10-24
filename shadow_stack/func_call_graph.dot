@@ -1,0 +1,25 @@
+digraph shadowstack_function_call{
+	a [label = "dr_client_main()"];
+	b [label = "event_basic_block()"];
+	c [label = "event_thread_init()"];
+	d [label = "event_thread_exit()"];
+	e [label = "event_exit()"];
+	f [label = "on_call()"];
+	g [label = "on_ret()"];
+	h [label = "push()"];
+	i [label = "pop()"];
+	j [label = "shadow_stack"];
+	k [label = "stack_exception_detected, dr_abort()"];
+	a -> b [label = "register_event"];
+	a -> c [label = "register_event"];
+	a -> d [label = "register_event"];
+	a -> e [label = "register_event"];
+	b -> f [label = "instr_is_call"];
+	b -> g [label = "instr_is_ret"];
+	f -> h[label = "push_operation_func"];
+	g -> i [label = "pop_operation_func"];
+	h -> j [label = "push_call_ins"];
+	i -> j [label = "pop_call_ins and compare"];
+	j -> e [label = "0 <= ret_address - pop() <= 8"];
+	j -> k [label = "ret_address - pop()>8"];
+}
